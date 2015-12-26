@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WhiteBoard</title>
+  <link rel="stylesheet" type="text/css" href="paint.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div id="toolBox">
+    <button type="button" value="rect" class="btn btn-default btn-lg">Rectangle</button>
+    <button type="button" value="circle" class="btn btn-default btn-lg">Circle</button>
+    <button type="button" value="line" class="btn btn-default btn-lg">Line</button>
+    <button type="button" value="text" class="btn btn-default btn-lg">Text</button>
+  </div>
+
+  <div id="theCanvas">
+  <canvas id="myCanvas" width="1000" height="500" style="border:1px solid #000000;">
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script type="text/javascript" src="paint.js"></script>
+</body>
+</html>
