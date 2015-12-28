@@ -4,8 +4,19 @@
   <title>WhiteBoard</title>
   <link rel="stylesheet" type="text/css" href="paint.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
 </head>
 <body>
+
+  <nav class="navbar navbar-inverse" id="navb">
+    <div class="container-fluid">
+      <div class="row">
+        <div id="title" class="navbar-header">
+          <h3>PAINT LEXA</h3>
+        </div>
+      </div>
+    </div>
+  </nav>
 
 <div class="row">
   <div id="toolBox" class="col-xs-4 col-md-4">
@@ -21,6 +32,12 @@
     <button type="button" id="width2"    value="3" class="width  btn btn-default"       >width2</button>
     <button type="button" id="width3"    value="6" class="width  btn btn-default"       >width3</button>
     <button type="button" id="width4"    value="9" class="width  btn btn-default"       >width4</button>
+  </div>
+  <div id="colors" class="col-xs-6 col-md-4 text-right">
+    <button type="button"     value="black"  class="colors active btn btn-default"     >black</button>
+    <button type="button"     value="red"    class="colors  btn btn-default"           >red</button>
+    <button type="button"     value="blue"   class="colors  btn btn-default"           >blue</button>
+    <button type="button"     value="green"  class="colors   btn btn-default"          >green</button>
   </div>
 </div>
 

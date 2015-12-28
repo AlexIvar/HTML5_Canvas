@@ -13,6 +13,7 @@ var isDrawing = false;
 var isTyping = false;
 var objContainer = [];
 var lineWidth = "1";
+var currColor = "black";
 
 $(".Shape").click(function() {
     shapeclicked = $(this).attr('id');
@@ -27,25 +28,31 @@ $(".width").click(function() {
    $(this).addClass("active");
 });
 
+$(".colors").click(function() {
+   currColor = $(this).attr('value');
+   $(".colors").removeClass("active");
+   $(this).addClass("active");
+});
+
  $("#myCanvas").mousedown(function(ev) {
    var mousePos = getMousePos(canvas, ev);
    switch (shapeclicked) {
      case "rectangle":
      //console.log("x : " + mousePos.x + " " + "y : " + mousePos.y);
-        currShape = new rectangle(mousePos.x, mousePos.y, "black", lineWidth);
+        currShape = new rectangle(mousePos.x, mousePos.y, currColor , lineWidth);
         isDrawing = true;
        break;
     case "circle":
-        currShape = new circle(mousePos.x, mousePos.y, "black", lineWidth);
+        currShape = new circle(mousePos.x, mousePos.y, currColor , lineWidth);
         isDrawing = true;
         break;
     case "line":
-        currShape = new line(mousePos.x, mousePos.y, "black", lineWidth);
+        currShape = new line(mousePos.x, mousePos.y, currColor , lineWidth);
         isDrawing = true;
 
         break;
     case "pencil":
-        currShape = new pencil(mousePos.x, mousePos.y, "black", lineWidth);
+        currShape = new pencil(mousePos.x, mousePos.y,  currColor , lineWidth);
         isDrawing = true;
         break;
     case "eraser":
@@ -53,11 +60,11 @@ $(".width").click(function() {
         isDrawing = true;
         break;
     case "text":
-          currShape = new Text(mousePos.x, mousePos.y, "black", lineWidth);
+          currShape = new Text(mousePos.x, mousePos.y, currColor , lineWidth);
           isTyping = true;
           break;
      default:
-        currShape = new pencil(mousePos.x, mousePos.y, "black", lineWidth);
+        currShape = new pencil(mousePos.x, mousePos.y, currColor , lineWidth);
         isDrawing = true;
         break;
 
