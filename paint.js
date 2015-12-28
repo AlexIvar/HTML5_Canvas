@@ -210,7 +210,7 @@ function line(x, y, color, lineWidth, x1, y1){
   this.x = x;
   this.y = y;
   this.color = color;
-  this.lineWidth = this.lineWidth;
+  this.lineWidth = lineWidth;
   this.x1 = x1;
   this.y1 = y1;
 }
