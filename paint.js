@@ -14,6 +14,8 @@ var isTyping = false;
 var objContainer = [];
 var lineWidth = "1";
 var currColor = "black";
+var undoObjects = [];
+var undoObject = undefined;
 
 $(".Shape").click(function() {
     shapeclicked = $(this).attr('id');
@@ -40,7 +42,18 @@ $(".clear").click(function() {
 });
 
 $(".undo").click(function() {
-     objContainer.pop();
+
+     undoObject = objContainer.pop();
+     undoObjects.push(undoObject);
+     redraw();
+});
+
+$(".redo").click(function() {
+     if(undoObjects.length !== 0)
+     {
+       var obj = undoObjects.pop();
+       objContainer.push(obj);
+     }
      redraw();
 });
 
