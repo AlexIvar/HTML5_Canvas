@@ -4,7 +4,7 @@ $(document).ready(function() {
 
   resizeWhiteboard();
   $(window).resize(resizeWhiteboard);
-  
+
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext("2d");
 var shapeclicked = undefined;
@@ -12,6 +12,7 @@ var currShape = undefined;
 var isDrawing = false;
 var isTyping = false;
 var objContainer = [];
+var lineWidth = "1";
 
 $(".Shape").click(function() {
     shapeclicked = $(this).attr('id');
@@ -20,37 +21,43 @@ $(".Shape").click(function() {
     $(this).addClass("active");
 });
 
+$(".width").click(function() {
+   lineWidth = $(this).attr('value');
+   $(".width").removeClass("active");
+   $(this).addClass("active");
+});
+
  $("#myCanvas").mousedown(function(ev) {
    var mousePos = getMousePos(canvas, ev);
    switch (shapeclicked) {
      case "rectangle":
      //console.log("x : " + mousePos.x + " " + "y : " + mousePos.y);
-        currShape = new rectangle(mousePos.x, mousePos.y, "black");
+        currShape = new rectangle(mousePos.x, mousePos.y, "black", lineWidth);
         isDrawing = true;
        break;
     case "circle":
-        currShape = new circle(mousePos.x, mousePos.y, "black");
+        currShape = new circle(mousePos.x, mousePos.y, "black", lineWidth);
         isDrawing = true;
         break;
     case "line":
-        currShape = new line(mousePos.x, mousePos.y, "black");
+        currShape = new line(mousePos.x, mousePos.y, "black", lineWidth);
         isDrawing = true;
 
         break;
     case "pencil":
-        currShape = new pencil(mousePos.x, mousePos.y, "black");
+        currShape = new pencil(mousePos.x, mousePos.y, "black", lineWidth);
         isDrawing = true;
         break;
     case "eraser":
-        currShape = new erase(mousePos.x, mousePos.y, "white");
+        currShape = new erase(mousePos.x, mousePos.y, "white", lineWidth);
         isDrawing = true;
         break;
     case "text":
-          currShape = new Text(mousePos.x, mousePos.y, "black", "3");
+          currShape = new Text(mousePos.x, mousePos.y, "black", lineWidth);
           isTyping = true;
           break;
      default:
-        currShape = new pencil(mousePos.x, mousePos.y, "black");
+        currShape = new pencil(mousePos.x, mousePos.y, "black", lineWidth);
         isDrawing = true;
         break;
 
@@ -81,7 +88,6 @@ $(".Shape").click(function() {
        case "line":
          currShape.x1 = mousePos.x;
          currShape.y1 = mousePos.y;
-         console.log("line2");
          break;
       case "pencil":
           currShape.addPoint(mousePos.x, mousePos.y);
@@ -122,13 +128,15 @@ function redraw() {
   context.clearRect(0, 0, canvas.width, canvas.height);
   for (var i = 0; i < objContainer.length; i++) {
         objContainer[i].draw();
+    //    console.log(JSON.stringify(objContainer[i]));
     }
 }
 
 //shapes
-function rectangle(x, y, color, width, height){
+function rectangle(x, y, color,lineWidth, width, height){
   this.x = x;
   this.y = y;
+  this.lineWidth = lineWidth;
   this.width = width;
   this.height = height;
   this.color = color;
@@ -136,7 +144,7 @@ function rectangle(x, y, color, width, height){
 
 rectangle.prototype.draw = function() {
     context.strokeStyle = this.color;
-    context.lineWidth = "3";
+    context.lineWidth = this.lineWidth;
     context.strokeRect(this.x, this.y, this.width, this.height);
 };
 
@@ -155,7 +163,7 @@ circle.prototype.draw = function(){
       x1 = this.x1,
       y1 = this.y1;
 
-      context.lineWidth = "3";
+      context.lineWidth = this.lineWidth;
       context.strokeStyle = this.color;
 
       context.beginPath();
@@ -172,7 +180,7 @@ function line(x, y, color, lineWidth, x1, y1){
   this.x = x;
   this.y = y;
   this.color = color;
-  this.lineWidth = "3";
+  this.lineWidth = this.lineWidth;
   this.x1 = x1;
   this.y1 = y1;
 }
@@ -217,7 +225,7 @@ pencil.prototype.draw = function(){
         context.lineTo(this.points[i].x, this.points[i].y);
     }
 
-    context.lineWidth = "3";
+    context.lineWidth = this.lineWidth;
     context.strokeStyle = this.color;
     context.stroke();
 }
@@ -240,7 +248,7 @@ erase.prototype.draw = function(){
         context.lineTo(this.points[i].x, this.points[i].y);
     }
 
-    context.lineWidth = "5";
+    context.lineWidth = this.lineWidth;
     context.strokeStyle = "white";
     context.stroke();
 }
