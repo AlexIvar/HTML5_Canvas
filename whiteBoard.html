@@ -7,7 +7,8 @@
 </head>
 <body>
 
-  <div id="toolBox">
+<div class="row">
+  <div id="toolBox" class="span8">
     <button type="button" id="pencil"    class="Shape active btn btn-default" >Pencil</button>
     <button type="button" id="line"      class="Shape btn btn-default"        >Line</button>
     <button type="button" id="rectangle" class="Shape btn btn-default"        >Rectangle</button>
@@ -15,12 +16,17 @@
     <button type="button" id="text"      class="Shape btn btn-default"        >Text</button>
     <button type="button" id="eraser"    class="Shape btn btn-default"        >Erase</button>
   </div>
+</div>
 
-  <div id="theCanvas">
-  <canvas id="myCanvas" width="1000" height="500" style="border:1px solid #000000;">
+<div class="row">
+  <div id="theCanvas" class="span8">
+    <canvas id="myCanvas" width="" height="600" style="border:2px solid #D8D8D8 ;" >
+    <div class="text-spawner"></div>
   </div>
+</div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script type="text/javascript" src="paint.js"></script>
+   <script type="text/javascript" src="global.js"></script>
 </body>
 </html>
