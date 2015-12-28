@@ -39,6 +39,10 @@ $(".clear").click(function() {
      context.clearRect(0, 0, canvas.width, canvas.height);
 });
 
+$(".undo").click(function() {
+     objContainer.pop();
+     redraw();
+});
 
  $("#myCanvas").mousedown(function(ev) {
    var mousePos = getMousePos(canvas, ev);
