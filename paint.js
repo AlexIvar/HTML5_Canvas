@@ -34,6 +34,12 @@ $(".colors").click(function() {
    $(this).addClass("active");
 });
 
+$(".clear").click(function() {
+     objContainer = [];
+     context.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+
  $("#myCanvas").mousedown(function(ev) {
    var mousePos = getMousePos(canvas, ev);
    switch (shapeclicked) {
