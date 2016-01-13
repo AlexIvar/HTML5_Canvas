@@ -16,6 +16,8 @@ var lineWidth = "1";
 var currColor = "black";
 var undoObjects = [];
 var undoObject = undefined;
+var textarea = null;
+var currentInputBox = undefined;
 
 $(".Shape").click(function() {
     shapeclicked = $(this).attr('id');
@@ -59,6 +61,12 @@ $(".redo").click(function() {
 
  $("#myCanvas").mousedown(function(ev) {
    var mousePos = getMousePos(canvas, ev);
+   //var mouseX = ev.pageX - this.offsetLeft + $("#myCanvas").position().left;
+   //var mouseY = ev.pageY - this.offsetTop;
+
+   //console.log("mousePos.x : " + mousePos.x + " mousePos.y: " + mousePos.y);
+   //console.log("mouseX: " + mouseX + " mouseY: " + mouseY);
+
    switch (shapeclicked) {
      case "rectangle":
      //console.log("x : " + mousePos.x + " " + "y : " + mousePos.y);
@@ -83,7 +91,13 @@ $(".redo").click(function() {
         isDrawing = true;
         break;
     case "text":
-          currShape = new Text(mousePos.x, mousePos.y, currColor , lineWidth);
+          displayTextBox(ev.clientY, ev.clientX);
+          var rect = canvas.getBoundingClientRect();
+          /*console.log("x : " + rect.top + " y: "+ rect.left);
+          var textArea = "<div id='textAreaPopUp' style='position:absolute;top:"+ev.clientY - rect.top+"px;left:"+ev.clientX - rect.left+"px;z-index:30;'><textarea id='textareaTest' style='width:100px;height:50px;'></textarea>";
+          $("#textBox").append(textArea);*/
+          currShape = new text(ev.clientX - rect.left, ev.clientY - rect.top, currColor , lineWidth);
+          //currShape = new text(mousePos.x, mousePos.y, currColor , lineWidth);
           isTyping = true;
           break;
      default:
@@ -93,6 +107,22 @@ $(".redo").click(function() {
 
    }
  });
+
+
+  function displayTextBox(x, y) {
+     if (currentInputBox) {
+         currentInputBox.remove();
+     }
+
+     currentInputBox = $("<input />");
+     currentInputBox.css("position", "fixed");
+     currentInputBox.css("top", x);
+     currentInputBox.css("left", y);
+
+     $(".text-spawner").append(currentInputBox);
+     currentInputBox.focus();
+ }
+
 
  $("#myCanvas").mousemove(function(ev) {
 
@@ -297,10 +327,28 @@ function text(x, y, color, fontSize, text){
 }
 
 text.prototype.draw = function() {
-    context.font = this.fontSize*5 + "px Arial";
+    context.font = this.fontSize*10 + "px Arial";
     context.fillStyle = this.color;
     context.fillText(this.text, this.x, this.y);
 };
+
+$("#theCanvas").keydown(function(ev) {
+     if (isTyping) {
+         if (ev.which === 13) {
+             currShape.text = currentInputBox.val();
+
+             objContainer.push(currShape);
+             currShape.draw();
+             //alert(currShape);
+
+             isTyping = false;
+             currentInputBox.remove();
+         } else if (ev.which === 27) {
+             isTyping = false;
+             currentInputBox.remove();
+         }
+     }
+ });
 
 function resizeWhiteboard() {
     var browserWidth = $("#theCanvas").width();
