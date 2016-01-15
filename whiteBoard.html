@@ -17,9 +17,10 @@
       </div>
     </div>
   </nav>
-
 <div class="row">
   <div id="toolBox" class="col-xs-4 col-md-4">
+    <div id="colorContainer"></div>
+    <!--<input type="color" id="theColor" name="favcolor" value="#000000">-->
     <button type="button" id="pencil"    class="Shape active btn btn-default" >Pencil</button>
     <button type="button" id="line"      class="Shape btn btn-default"        >Line</button>
     <button type="button" id="rectangle" class="Shape btn btn-default"        >Rectangle</button>
@@ -32,12 +33,15 @@
     <button type="button" id="width2"    value="3" class="width  btn btn-default"       >width2</button>
     <button type="button" id="width3"    value="6" class="width  btn btn-default"       >width3</button>
     <button type="button" id="width4"    value="9" class="width  btn btn-default"       >width4</button>
+    <!--<input id="slider2" type ="range" min ="2" max="50" step ="4" value ="4"/>-->
+
   </div>
   <div id="colors" class="col-xs-6 col-md-4 text-right">
     <button type="button"     value="black"  class="colors active btn btn-default"     >black</button>
     <button type="button"     value="red"    class="colors  btn btn-default"           >red</button>
     <button type="button"     value="blue"   class="colors  btn btn-default"           >blue</button>
     <button type="button"     value="green"  class="colors   btn btn-default"          >green</button>
+    <input type="color" id="theColor" name="favcolor" value="#000000">
   </div>
 </div>
 
@@ -53,10 +57,13 @@
       <button type="button" id="clear"    class="clear btn btn-default" >Clear</button>
       <button type="button" id="undo"     class="undo btn btn-default"  >Undo</button>
       <button type="button" id="redo"     class="redo btn btn-default"  >Redo</button>
+      <span class="btn btn-default btn-file">add image <input type="file">
+</span>
   </div>
 </div>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <!--<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
   <script type="text/javascript" src="paint.js"></script>
    <script type="text/javascript" src="global.js"></script>
 </body>

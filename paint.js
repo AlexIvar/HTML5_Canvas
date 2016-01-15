@@ -1,4 +1,3 @@
-
 var shapes = [];
 $(document).ready(function() {
 
@@ -18,6 +17,14 @@ var undoObjects = [];
 var undoObject = undefined;
 var textarea = null;
 var currentInputBox = undefined;
+var currentImage = undefined;
+var imageWidth = undefined;
+var imageHeight = undefined;
+var newImageWidht = undefined;
+var newImageHeight = undefined;
+var originalImageRatio = undefined;
+var xImage = undefined;
+var yImage = undefined;
 
 $(".Shape").click(function() {
     shapeclicked = $(this).attr('id');
@@ -32,10 +39,86 @@ $(".width").click(function() {
    $(this).addClass("active");
 });
 
+
 $(".colors").click(function() {
    currColor = $(this).attr('value');
    $(".colors").removeClass("active");
    $(this).addClass("active");
+});
+
+$(document).on('change', '.btn-file :file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+
+    if ( this.files && this.files[0] ) {
+        var FR = new FileReader();
+        FR.onload = function(e) {
+           currentImage = new Image();
+           currentImage.onload = function() {
+             context.clearRect(0, 0, canvas.width, canvas.height);
+             var shape = new loadedImage(currentImage);
+             objContainer = [];
+             objContainer.push(shape);
+
+             imageWidth = currentImage.naturalWidth;
+             imageHeight = currentImage.naturalHeight;
+             newImageWidht = imageWidth;
+             newImageHeight = imageHeight;
+             originalImageRatio = imageWidth / imageHeight;
+             xImage = 600;
+             yImage = 0;
+
+             if(newImageWidht > newImageHeight && newImageWidht > 800){
+               newImageWidht = 800;
+               newImageHeight = 800 / originalImageRatio;
+               xImage = 400;
+             }
+             if(newImageWidht > newImageHeight && newImageHeight > 500){
+               newImageHeight = 500;
+               newImageHeight = 500 * originalImageRatio;
+             }
+             if(newImageHeight > newImageWidht && newImageHeight > 500){
+               newImageHeight = 500;
+               newImageHeight = 500 * originalImageRatio;
+
+             }
+             if(newImageHeight == newImageWidht && newImageHeight > 500){
+               newImageHeight = 500;
+               newImageHeight = 500 * originalImageRatio;
+
+             }
+
+             context.drawImage(currentImage, xImage, yImage, newImageWidht,newImageHeight);
+           };
+           currentImage.src = e.target.result;
+        };
+        FR.readAsDataURL( this.files[0] );
+    }
+});
+
+$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+       console.log(numFiles);
+       console.log(label);
+   });
+
+
+//slier fyrir lineWidth
+/*$("#slider2").on("change",function(){
+    //$(".myclass").css("color",$("#colorpicker").val());
+    lineWidth = $("#slider2").val();
+    $(".width").removeClass("active");
+    $(this).addClass("active");
+    //alert(color);
+});*/
+
+$("#theColor").on("change",function(){
+    //$(".myclass").css("color",$("#colorpicker").val());
+    currColor = $("#theColor").val();
+    $(".colors").removeClass("active");
+    $(this).addClass("active");
+    //alert(color);
 });
 
 $(".clear").click(function() {
@@ -59,6 +142,7 @@ $(".redo").click(function() {
      redraw();
 });
 
+
  $("#myCanvas").mousedown(function(ev) {
    var mousePos = getMousePos(canvas, ev);
    //var mouseX = ev.pageX - this.offsetLeft + $("#myCanvas").position().left;
@@ -66,6 +150,7 @@ $(".redo").click(function() {
 
    //console.log("mousePos.x : " + mousePos.x + " mousePos.y: " + mousePos.y);
    //console.log("mouseX: " + mouseX + " mouseY: " + mouseY);
+
 
    switch (shapeclicked) {
      case "rectangle":
@@ -80,7 +165,6 @@ $(".redo").click(function() {
     case "line":
         currShape = new line(mousePos.x, mousePos.y, currColor , lineWidth);
         isDrawing = true;
-
         break;
     case "pencil":
         currShape = new pencil(mousePos.x, mousePos.y,  currColor , lineWidth);
@@ -122,10 +206,13 @@ $(".redo").click(function() {
      $(".text-spawner").append(currentInputBox);
      currentInputBox.focus();
  }
-
+ if(currentImage !== undefined)
+ {
+   currShape = new loadedImage(currentImage);
+   objContainer.push(currShape);
+ }
 
  $("#myCanvas").mousemove(function(ev) {
-
    if(isDrawing)
    {
      var mousePos = getMousePos(canvas, ev);
@@ -330,6 +417,13 @@ text.prototype.draw = function() {
     context.font = this.fontSize*10 + "px Arial";
     context.fillStyle = this.color;
     context.fillText(this.text, this.x, this.y);
+};
+
+function loadedImage(image){
+  this.image = image;
+}
+loadedImage.prototype.draw = function(){
+  context.drawImage(this.image, xImage, yImage, newImageWidht,newImageHeight);
 };
 
 $("#theCanvas").keydown(function(ev) {
