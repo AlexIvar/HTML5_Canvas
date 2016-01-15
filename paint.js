@@ -46,6 +46,24 @@ $(".colors").click(function() {
    $(this).addClass("active");
 });
 
+$(".right").click(function() {
+   xImage = xImage + 10;
+   redraw();
+});
+$(".down").click(function() {
+  yImage = yImage + 10;
+  redraw();
+});
+$(".left").click(function() {
+   xImage = xImage - 10;
+   redraw();
+});
+$(".up").click(function() {
+  yImage = yImage - 10;
+  redraw();
+});
+
+
 $(document).on('change', '.btn-file :file', function() {
     var input = $(this),
         numFiles = input.get(0).files ? input.get(0).files.length : 1,
